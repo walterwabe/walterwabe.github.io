@@ -47,8 +47,11 @@ function generatePages() {
   const singlePage = width < 450;
 
   const totalSheets = singlePage ? 28 : 14;
+  const totalImages = 28;
+  var loadedImages = 0;
   const imageBasePath = "images/"; // Base path for your images
   const container = document.getElementById("book");
+  container.style.opacity = 0;
   container.innerHTML = "";
 
   for (let i = singlePage ? 1 : 0; i <= totalSheets; i++) {
@@ -71,12 +74,24 @@ function generatePages() {
         leftImg = document.createElement("img");
         leftImg.className = "default-position rotate-prev left-img page-img";
         leftImg.src = `${imageBasePath}${2 * i}.jpg`;
+        leftImg.addEventListener("load", function () {
+          loadedImages++;
+          if (loadedImages === totalImages) {
+            container.style.opacity = 0.9;
+          }
+        });
       }
 
       // Right image
       const rightImg = document.createElement("img");
       rightImg.className = "default-position right-img page-img";
       rightImg.src = `${imageBasePath}${2 * i + 1}.jpg`;
+      rightImg.addEventListener("load", function () {
+        loadedImages++;
+        if (loadedImages === totalImages) {
+          container.style.opacity = 0.9;
+        }
+      });
 
       pageDiv.appendChild(leftImg);
       if (i != totalSheets) {
