@@ -305,5 +305,11 @@ canvas {
   border: 1px solid white;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 450px) {
+  #book {
+    overflow: hidden;
+  }
+  .page {
+    height: 80vh;
+  }
 }
