@@ -103,6 +103,12 @@ function generatePages() {
       img.className = "default-position right-img page-img";
       img.style.width = "100%";
       img.src = `${imageBasePath}${i}.jpg`;
+      img.addEventListener("load", function () {
+        loadedImages++;
+        if (loadedImages === totalImages) {
+          container.style.opacity = 0.9;
+        }
+      });
       pageDiv.appendChild(img);
     }
 
