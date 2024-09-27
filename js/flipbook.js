@@ -47,7 +47,7 @@ function generatePages() {
   const singlePage = width < 450;
 
   const totalSheets = singlePage ? 28 : 14;
-  const imageBasePath = !singlePage ? "images/" : "images/mobile/"; // Base path for your images
+  const imageBasePath = "images/"; // Base path for your images
   const container = document.getElementById("book");
   container.innerHTML = "";
 
