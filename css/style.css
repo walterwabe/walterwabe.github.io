@@ -195,6 +195,7 @@ canvas {
   height: 90vh;
   width: 95%;
   max-width: 1200px;
+  opacity: 0.9;
 }
 .page {
   position: absolute;
