@@ -1,4 +1,6 @@
 function previousPage(position) {
+  const width = window.innerWidth;
+  const singlePage = width < 450;
   var actualPage = document.getElementById(`page-${position}`);
   var prevPage = document.getElementById(`page-${position - 1}`);
   if (prevPage) {
@@ -6,7 +8,9 @@ function previousPage(position) {
     var zPrev = getComputedStyle(prevPage).zIndex;
     let leftElement = actualPage.querySelector(".left-img");
     let rightElement = prevPage.querySelector(".right-img");
-    leftElement.classList.toggle("rotate-prev");
+    if (!singlePage) {
+      leftElement.classList.toggle("rotate-prev");
+    }
     rightElement.classList.toggle("rotate-next");
     setTimeout(function () {
       actualPage.style.zIndex = zPrev;
@@ -16,6 +20,8 @@ function previousPage(position) {
 }
 
 function nextPage(position) {
+  const width = window.innerWidth;
+  const singlePage = width < 450;
   var actualPage = document.getElementById(`page-${position}`);
   var nextPage = document.getElementById(`page-${position + 1}`);
   if (nextPage) {
@@ -24,7 +30,9 @@ function nextPage(position) {
     let rightElement = actualPage.querySelector(".right-img");
     let leftElement = nextPage.querySelector(".left-img");
     rightElement.classList.toggle("rotate-next");
-    leftElement.classList.toggle("rotate-prev");
+    if (!singlePage) {
+      leftElement.classList.toggle("rotate-prev");
+    }
     setTimeout(function () {
       nextPage.style.zIndex = zActual;
     }, 150);
@@ -35,11 +43,15 @@ function nextPage(position) {
 }
 
 function generatePages() {
-  const totalSheets = 14;
+  const width = window.innerWidth;
+  const singlePage = width < 450;
+
+  const totalSheets = singlePage ? 28 : 14;
   const imageBasePath = "images/"; // Base path for your images
   const container = document.getElementById("book");
+  container.innerHTML = "";
 
-  for (let i = 0; i <= totalSheets; i++) {
+  for (let i = singlePage ? 1 : 0; i <= totalSheets; i++) {
     const zIndex = totalSheets - i + 1;
 
     // Create the page container div
@@ -48,29 +60,52 @@ function generatePages() {
     pageDiv.className = "page";
     pageDiv.style.zIndex = zIndex;
 
-    // Left image
-    var leftImg;
-    if (i == 0) {
-      leftImg = document.createElement("div");
-      leftImg.className = "default-position left-img left-cover";
-      leftImg.style.opacity = 0;
+    if (!singlePage) {
+      // Left image
+      var leftImg;
+      if (i == 0) {
+        leftImg = document.createElement("div");
+        leftImg.className = "default-position left-img left-cover";
+        leftImg.style.opacity = 0;
+      } else {
+        leftImg = document.createElement("img");
+        leftImg.className = "default-position rotate-prev left-img page-img";
+        leftImg.src = `${imageBasePath}${2 * i}.jpg`;
+      }
+
+      // Right image
+      const rightImg = document.createElement("img");
+      rightImg.className = "default-position right-img page-img";
+      rightImg.src = `${imageBasePath}${2 * i + 1}.jpg`;
+
+      pageDiv.appendChild(leftImg);
+      if (i != totalSheets) {
+        pageDiv.appendChild(rightImg);
+      }
     } else {
-      leftImg = document.createElement("img");
-      leftImg.className = "default-position rotate-prev left-img page-img";
-      leftImg.src = `${imageBasePath}${2 * i}.jpg`;
+      // Single page
+      const img = document.createElement("img");
+      img.className = "default-position right-img page-img";
+      img.style.width = "100%";
+      img.src = `${imageBasePath}${i}.jpg`;
+      pageDiv.appendChild(img);
     }
 
-    // Right image
-    const rightImg = document.createElement("img");
-    rightImg.className = "default-position right-img page-img";
-    rightImg.src = `${imageBasePath}${2 * i + 1}.jpg`;
+    if (!singlePage) {
+      // Left and right image layers
+      const imgLayerLeft = document.createElement("div");
+      imgLayerLeft.className = "img-layer-left page-layer";
 
-    // Left and right image layers
-    const imgLayerLeft = document.createElement("div");
-    imgLayerLeft.className = "img-layer-left page-layer";
+      const imgLayerRight = document.createElement("div");
+      imgLayerRight.className = "img-layer-right page-layer";
 
-    const imgLayerRight = document.createElement("div");
-    imgLayerRight.className = "img-layer-right page-layer";
+      if (i != 0) {
+        pageDiv.appendChild(imgLayerLeft);
+      }
+      if (i != totalSheets) {
+        pageDiv.appendChild(imgLayerRight);
+      }
+    }
 
     // Previous button
     const prevBtn = document.createElement("div");
@@ -87,16 +122,7 @@ function generatePages() {
     nextBtn.innerHTML = "&rarr;";
 
     // Append elements to page div
-    pageDiv.appendChild(leftImg);
-    if (i != totalSheets) {
-      pageDiv.appendChild(rightImg);
-    }
-    if (i != 0) {
-      pageDiv.appendChild(imgLayerLeft);
-    }
-    if (i != totalSheets) {
-      pageDiv.appendChild(imgLayerRight);
-    }
+
     if (i != 0) {
       pageDiv.appendChild(prevBtn);
     }
@@ -132,4 +158,9 @@ particlesJS("book", {
   },
   retina_detect: true,
 });
-requestAnimationFrame(update);
+
+//requestAnimationFrame(update);
+
+window.addEventListener("resize", function () {
+  generatePages();
+});
