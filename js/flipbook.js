@@ -76,6 +76,7 @@ function generatePages() {
         leftImg.src = `${imageBasePath}${2 * i}.jpg`;
         leftImg.addEventListener("load", function () {
           loadedImages++;
+          updateLoader(totalImages, loadedImages);
           if (loadedImages === totalImages) {
             container.style.opacity = 0.9;
           }
@@ -88,6 +89,7 @@ function generatePages() {
       rightImg.src = `${imageBasePath}${2 * i + 1}.jpg`;
       rightImg.addEventListener("load", function () {
         loadedImages++;
+        updateLoader(totalImages, loadedImages);
         if (loadedImages === totalImages) {
           container.style.opacity = 0.9;
         }
@@ -105,6 +107,7 @@ function generatePages() {
       img.src = `${imageBasePath}${i}.jpg`;
       img.addEventListener("load", function () {
         loadedImages++;
+        updateLoader(totalImages, loadedImages);
         if (loadedImages === totalImages) {
           container.style.opacity = 0.9;
         }
@@ -159,3 +162,12 @@ generatePages();
 window.addEventListener("resize", function () {
   generatePages();
 });
+
+function updateLoader(total, loaded) {
+  const loader = document.getElementById("loader-progress");
+  const percentage = Math.round((loaded / total) * 100);
+  loader.innerHTML = `Loading... ${percentage}%`;
+  if (loaded === total) {
+    loader.style.width = percentage + "%";
+  }
+}
