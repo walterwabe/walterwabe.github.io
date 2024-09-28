@@ -77,9 +77,6 @@ function generatePages() {
         leftImg.addEventListener("load", function () {
           loadedImages++;
           updateLoader(totalImages, loadedImages);
-          if (loadedImages === totalImages) {
-            container.style.opacity = 0.9;
-          }
         });
       }
 
@@ -90,9 +87,6 @@ function generatePages() {
       rightImg.addEventListener("load", function () {
         loadedImages++;
         updateLoader(totalImages, loadedImages);
-        if (loadedImages === totalImages) {
-          container.style.opacity = 0.9;
-        }
       });
 
       pageDiv.appendChild(leftImg);
@@ -108,9 +102,6 @@ function generatePages() {
       img.addEventListener("load", function () {
         loadedImages++;
         updateLoader(totalImages, loadedImages);
-        if (loadedImages === totalImages) {
-          container.style.opacity = 0.9;
-        }
       });
       pageDiv.appendChild(img);
     }
@@ -167,4 +158,10 @@ function updateLoader(total, loaded) {
   const loader = document.getElementById("loader-progress");
   const percentage = Math.round((loaded / total) * 100);
   loader.style.width = `${percentage}%`;
+  if (loaded == total) {
+    setTimeout(function () {
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("book").style.opacity = 0.9;
+    }, 500);
+  }
 }
