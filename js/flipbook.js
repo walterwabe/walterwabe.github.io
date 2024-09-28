@@ -166,5 +166,5 @@ window.addEventListener("resize", function () {
 function updateLoader(total, loaded) {
   const loader = document.getElementById("loader-progress");
   const percentage = Math.round((loaded / total) * 100);
-  loader.innerHTML = `Loading... ${percentage}%`;
+  loader.style.width = `${percentage}%`;
 }
