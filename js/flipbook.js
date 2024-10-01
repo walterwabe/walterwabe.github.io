@@ -49,7 +49,7 @@ function generatePages() {
   const totalSheets = singlePage ? 28 : 14;
   const totalImages = 28;
   var loadedImages = 0;
-  const imageBasePath = "images/"; // Base path for your images
+  const imageBasePath = singlePage ? "images/mobile/" : "images/"; // Base path for your images
   const container = document.getElementById("book");
   container.style.opacity = 0;
   container.innerHTML = "";
