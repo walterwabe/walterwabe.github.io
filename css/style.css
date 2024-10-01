@@ -321,13 +321,14 @@ canvas {
 
 #loader {
   width: 100px;
-  border: 1px solid white;
+  border: 1px solid rgb(217, 174, 32);
   height: 10px;
+  margin: 0 auto;
 }
 
 #loader-progress {
   width: 0%;
   height: 100%;
-  background-color: white;
+  background-color: rgb(217, 174, 32);
   animation: loader 2s infinite;
 }

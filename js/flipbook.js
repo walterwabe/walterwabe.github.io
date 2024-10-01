@@ -161,6 +161,7 @@ function updateLoader(total, loaded) {
   if (loaded == total) {
     setTimeout(function () {
       document.getElementById("loader").style.display = "none";
+      document.getElementById("logo").style.display = "none";
       document.getElementById("book").style.opacity = 0.9;
     }, 500);
   }
