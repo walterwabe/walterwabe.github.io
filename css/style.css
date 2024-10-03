@@ -332,3 +332,11 @@ canvas {
   background-color: rgb(217, 174, 32);
   animation: loader 2s infinite;
 }
+
+#logo img {
+  width: 80%;
+  max-width: 400px;
+  min-width: 350px;
+  margin-top: 200px;
+  margin-bottom: 100px;
+}
